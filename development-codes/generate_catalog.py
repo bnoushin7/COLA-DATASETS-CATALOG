@@ -28,10 +28,8 @@ def generate_catalog(file_path_name, dataset_sub_name, tags):
     """
     #print("Hi There")
     file_path_name = file_path_name.strip('""')
-    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    print(file_path_name)
-    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    path, fileName = os.path.split(file_path_name)
+    real_path, fileName = os.path.split(file_path_name)
+    path = (os.path.join(os.path.dirname('/shared/land/CCI'), os.readlink(real_path)))
     #print("1 :"+ file_path_name)
     #print("2 :"+ dataset_sub_name)
     #print("3: "+ tags)
@@ -85,7 +83,7 @@ def generate_catalog(file_path_name, dataset_sub_name, tags):
     except:
         url =""
     # Here url roles as the location
-    url = path
+    url = real_path
     html_repr =xr.core.formatting_html.dataset_repr(src).replace('\\n', '\n')
 
     cmd = "ls -lrt --time-style=+%Y-%m-%d " + str(path) + " | tail -n 1"
@@ -95,10 +93,10 @@ def generate_catalog(file_path_name, dataset_sub_name, tags):
     time_stamp = ''.join(res)    
     print(path)
     print("-----------------------------------------")
-    ancestors = make_ancestors(path, 1)
+    ancestors = make_ancestors(real_path, 1)
 
 
-    ans = gen_direct_parent(path)
+    ans = gen_direct_parent(real_path)
 
 
     #direct_parent = path.split('/')[-1].lower()
@@ -118,8 +116,9 @@ def generate_catalog(file_path_name, dataset_sub_name, tags):
     #page_name = fileName.replace('*','').replace('..','.').replace('.nc','')
     page_name = re.sub(r"_\d{4,8}-\d{4,8}.nc", "", page_name)
     page_name = re.sub(r"\.\d{4,8}-\d{4,8}.nc", "", page_name)
-    print(page_name)
-    print(direct_parent)
+    print(f'page name is {page_name}')
+    print(f'direct parent is  {direct_parent}')
+    
     link_to_children(page_name, direct_parent)
     html_page = page_name  + ".html"
     with open(html_page , "w", encoding='utf-8') as file:

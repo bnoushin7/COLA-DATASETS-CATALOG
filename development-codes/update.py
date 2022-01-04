@@ -214,7 +214,12 @@ def link_to_children(child, dp_name):
     #for MERRA-2 I have replaced shared with reanalysis    
     #dp_name = dp_name.replace('shared','reanalysis') 
     #pdb.set_trace() 
+
+
+    dp_name = dp_name.replace("/shared/land/CCI/","/cci/")
+
     file_name = dp_name + ".html"
+    print(file_name)
     fp = open('../'+file_name, "r+")
     fin = fp.read()
 

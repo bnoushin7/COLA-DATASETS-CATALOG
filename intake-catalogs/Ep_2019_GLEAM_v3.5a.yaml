@@ -1,0 +1,33 @@
+sources:
+  netcdf:
+    args:
+      urlpath: /shared/land/GLEAM/v3.5a/daily/2019/Ep_2019_GLEAM_v3.5a.nc
+      xarray_kwargs:
+        decode_times: false
+    description: ''
+    driver: intake_xarray.netcdf.NetCDFSource
+    metadata:
+      Authors: Hydro-Climate Extremes Lab (H-CEL)
+      Contact: info@gleam.eu
+      Dataset: Global Land Evaporation Amsterdam Model
+      Institution: Ghent University
+      Reference1: "Martens, B. et al 2017: GLEAM v3: satellite-based land evaporation\
+        \ and root-zone soil moisture, Geoscientific Model Development, 10, 1903\u2013\
+        1925, doi: 10.5194/gmd-10-1903-2017"
+      Reference2: "Miralles, D.G. et al. 2011: Global land-surface evaporation estimated\
+        \ from satellite-based observations, Hydrology and Earth System Sciences,\
+        \ 15, 453\u2013469, doi: 10.5194/hess-15-453-2011"
+      Version: 3.5a
+      coords: !!python/tuple
+      - time
+      - lon
+      - lat
+      data_vars:
+        Ep:
+        - time
+        - lon
+        - lat
+      dims:
+        lat: 720
+        lon: 1440
+        time: 365

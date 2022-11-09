@@ -1,0 +1,41 @@
+sources:
+  netcdf:
+    args:
+      urlpath: /shared/land/GLEAM/v3.5a/daily/2019/AE_2019_GLEAM_v3.5a.nc
+      xarray_kwargs:
+        decode_times: false
+    description: ''
+    driver: intake_xarray.netcdf.NetCDFSource
+    metadata:
+      Authors: Hydro-Climate Extremes Lab (H-CEL)
+      CDI: Climate Data Interface version 1.9.5 (http://mpimet.mpg.de/cdi)
+      CDO: Climate Data Operators version 1.9.5 (http://mpimet.mpg.de/cdo)
+      Contact: info@gleam.eu
+      Conventions: CF-1.6
+      Dataset: Global Land Evaporation Amsterdam Model
+      Institution: Ghent University
+      Reference1: "Martens, B. et al 2017: GLEAM v3: satellite-based land evaporation\
+        \ and root-zone soil moisture, Geoscientific Model Development, 10, 1903\u2013\
+        1925, doi: 10.5194/gmd-10-1903-2017"
+      Reference2: "Miralles, D.G. et al. 2011: Global land-surface evaporation estimated\
+        \ from satellite-based observations, Hydrology and Earth System Sciences,\
+        \ 15, 453\u2013469, doi: 10.5194/hess-15-453-2011"
+      Version: '3.5a (revision 2.0: fixed a snow mask error in 2020)'
+      coords: !!python/tuple
+      - time
+      - lon
+      - lat
+      data_vars:
+        AE:
+        - time
+        - lon
+        - lat
+      dims:
+        lat: 720
+        lon: 1440
+        time: 365
+      history: 'Mon Jun 21 09:43:27 2021: cdo -f nc4c -z zip_9 selvar,AE /scratch/gent/vo/000/gvo00090/vsc43614/gleam/v35a_output/raw/GLEAM_v35a_Output_2019.nc
+        /scratch/gent/vo/000/gvo00090/vsc43614/gleam/v35a_output/processed/daily/2019/AE_2019_GLEAM_v3.5a.nc
+
+        Mon Jun 21 09:42:08 2021: cdo setmissval,-999.0 /scratch/gent/vo/000/gvo00090/vsc43614/gleam/v35a_output/raw/GLEAM_v35a_Output_2019.nc
+        /scratch/gent/vo/000/gvo00090/vsc43614/gleam/v35a_output/raw/test_2019.nc'

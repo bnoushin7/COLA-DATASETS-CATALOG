@@ -1,0 +1,49 @@
+name: Count Intake catalog dataset entries
+
+on:
+  workflow_dispatch:
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Count entries
+        run: |
+          python - <<'PY'
+          import glob, yaml
+
+          def load_yaml(path):
+              with open(path, "r", encoding="utf-8") as f:
+                  return yaml.safe_load(f) or {}
+
+          yamls = sorted(glob.glob("intake-catalogs/*.yaml"))
+
+          def is_subcatalog(src):
+              return isinstance(src, dict) and src.get("driver","").endswith("YAMLFileCatalog")
+
+          total_leaf = 0
+          total_sources = 0
+
+          for y in yamls:
+              doc = load_yaml(y)
+              sources = (doc.get("sources") if isinstance(doc, dict) else {}) or {}
+              total_sources += len(sources)
+              total_leaf += sum(1 for v in sources.values() if not is_subcatalog(v))
+
+          print(f"YAML files scanned: {len(yamls)}")
+          print(f"Total sources: {total_sources}")
+          print(f"Leaf dataset entries (use this number): {total_leaf}")
+          PY
